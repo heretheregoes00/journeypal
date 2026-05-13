@@ -29,7 +29,7 @@ function SiteHeader({ onCta }: { onCta: () => void }) {
     <header className="w-full">
       <div className="mx-auto max-w-6xl px-5 sm:px-8 py-5 flex items-center justify-between">
         <a href="#" aria-label="JourneyPal home" className="inline-flex">
-          <Logo height={36} />
+          <Logo height={28} />
         </a>
         <button
           onClick={onCta}
@@ -42,23 +42,17 @@ function SiteHeader({ onCta }: { onCta: () => void }) {
   );
 }
 
-function Logo({ height = 36 }: { height?: number }) {
-  const imgHeight = Math.round(height * 0.48);
-  const imgWidth = Math.round(imgHeight * LOGO_ASPECT);
-  const padX = Math.round(height * 0.5);
+function Logo({ height = 26 }: { height?: number }) {
+  const imgWidth = Math.round(height * LOGO_ASPECT);
   return (
-    <span
-      className="inline-flex items-center rounded-lg bg-ink"
-      style={{ height, paddingLeft: padX, paddingRight: padX }}
-    >
-      <Image
-        src="/journeypal_logo.svg"
-        alt="JourneyPal"
-        width={imgWidth}
-        height={imgHeight}
-        priority
-      />
-    </span>
+    <Image
+      src="/journeypal_logo.svg"
+      alt="JourneyPal"
+      width={imgWidth}
+      height={height}
+      priority
+      className="block"
+    />
   );
 }
 
@@ -412,7 +406,7 @@ function Footer() {
     <footer className="mt-auto border-t border-slate-100 bg-white">
       <div className="mx-auto max-w-6xl px-5 sm:px-8 py-10 flex flex-col sm:flex-row gap-6 sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
-          <Logo height={28} />
+          <Logo height={22} />
           <span className="text-sm text-ink-muted">
             © {new Date().getFullYear()} JourneyPal
           </span>
