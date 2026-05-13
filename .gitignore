@@ -28,6 +28,12 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# local data store (subscriber emails, etc.) — temporary until Supabase
+/data
+
+# dev server logs
+*.log
+
 # vercel
 .vercel
 
