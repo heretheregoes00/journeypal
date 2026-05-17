@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "../components/Logo";
+import { STRIPE_PAYMENT_LINK } from "@/lib/config";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
@@ -17,10 +18,10 @@ export default function ThanksPage({
   const name = firstString(searchParams.name);
   const email = firstString(searchParams.email);
 
-  const heading = name ? `Thanks, ${name}!` : "Thanks!";
-  const delivery = email
-    ? `You'll get it at ${email} within 24 hours.`
-    : "You'll receive it within 24 hours.";
+  const heading = name ? `One last step, ${name}` : "One last step";
+  const fineText = email
+    ? `Secure checkout via Stripe. We'll send your guide to ${email} within 24 hours of payment.`
+    : "Secure checkout via Stripe. We'll send your guide within 24 hours of payment.";
 
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-b from-brand-50/50 to-white">
@@ -53,28 +54,20 @@ export default function ThanksPage({
           {heading}
         </h1>
         <p className="mt-4 text-lg text-ink-muted text-balance">
-          We&apos;re putting together your personalized Korea relocation guide.{" "}
-          {delivery}
+          Your personalized Korea relocation guide is ready to be prepared. To
+          receive it within 24 hours, complete payment below.
         </p>
 
-        <div className="mt-8 rounded-2xl border border-slate-100 bg-white px-6 py-5 shadow-card text-sm text-ink-muted">
-          Keep an eye on your inbox (and your spam folder, just in case).
-          Questions? Email us at{" "}
-          <a
-            href="mailto:hello@journeypal.co"
-            className="font-medium text-brand-700 hover:underline"
-          >
-            hello@journeypal.co
-          </a>
-          .
-        </div>
-
-        <Link
-          href="/"
-          className="mt-8 inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3 font-semibold text-ink hover:border-brand-300 hover:text-brand-700 transition"
+        <a
+          href={STRIPE_PAYMENT_LINK}
+          className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-brand-500 px-8 py-4 text-base font-semibold text-white shadow-cta hover:bg-brand-600 active:translate-y-px transition sm:w-auto"
         >
-          Back to home
-        </Link>
+          Pay $15 and get my guide →
+        </a>
+
+        <p className="mt-4 max-w-md text-sm text-ink-soft text-balance">
+          {fineText}
+        </p>
       </div>
     </main>
   );
