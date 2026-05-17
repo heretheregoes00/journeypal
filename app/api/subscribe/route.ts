@@ -1,29 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
+import { supabaseAdmin } from "@/lib/supabase";
 
 export const runtime = "nodejs";
-
-const DATA_DIR = path.join(process.cwd(), "data");
-const DATA_FILE = path.join(DATA_DIR, "emails.json");
-
-type Entry = { email: string; createdAt: string };
-
-async function readEntries(): Promise<Entry[]> {
-  try {
-    const raw = await fs.readFile(DATA_FILE, "utf8");
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch (err: unknown) {
-    if ((err as NodeJS.ErrnoException).code === "ENOENT") return [];
-    throw err;
-  }
-}
-
-async function writeEntries(entries: Entry[]) {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.writeFile(DATA_FILE, JSON.stringify(entries, null, 2), "utf8");
-}
 
 function isValidEmail(value: unknown): value is string {
   if (typeof value !== "string") return false;
@@ -49,13 +27,22 @@ export async function POST(req: NextRequest) {
   }
 
   const normalized = email.trim().toLowerCase();
-  const entries = await readEntries();
-  if (entries.some((e) => e.email === normalized)) {
-    return NextResponse.json({ ok: true, deduped: true });
-  }
 
-  entries.push({ email: normalized, createdAt: new Date().toISOString() });
-  await writeEntries(entries);
+  const { error } = await supabaseAdmin
+    .from("subscribers")
+    .insert({ email: normalized });
+
+  if (error) {
+    // 23505 = unique_violation — email already subscribed.
+    if (error.code === "23505") {
+      return NextResponse.json({ ok: true, deduped: true });
+    }
+    console.error("Supabase insert failed:", error.message);
+    return NextResponse.json(
+      { error: "Something went wrong. Please try again." },
+      { status: 500 }
+    );
+  }
 
   return NextResponse.json({ ok: true });
 }
