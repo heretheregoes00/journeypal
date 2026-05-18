@@ -26,7 +26,8 @@
       "Bash(curl -s -X POST -H \"Content-Type: application/json\" -d '{\"name\":\"Test\",\"arrival_date\":\"2026-09-01\",\"university\":\"Yonsei University\"}' -w \"  [status %{http_code}]\\\\n\" http://localhost:3000/api/tracker/setup)",
       "Bash(curl -s -o /dev/null -w \"GET /tracker/setup -> %{http_code}  %{redirect_url}\\\\n\" http://localhost:3000/tracker/setup)",
       "Bash(curl -s -o /dev/null -w \"GET /tracker       -> %{http_code}  %{redirect_url}\\\\n\" http://localhost:3000/tracker)",
-      "Bash(curl -s -X POST -H \"Content-Type: application/json\" -d '{\"name\":\"T\",\"university\":\"KAIST\"}' -w \"  [%{http_code}]\\\\n\" http://localhost:3000/api/tracker/setup)"
+      "Bash(curl -s -X POST -H \"Content-Type: application/json\" -d '{\"name\":\"T\",\"university\":\"KAIST\"}' -w \"  [%{http_code}]\\\\n\" http://localhost:3000/api/tracker/setup)",
+      "Bash(curl -s -o /dev/null -w \"GET /auth/callback \\(no code\\) -> %{http_code} %{redirect_url}\\\\n\" http://localhost:3000/auth/callback)"
     ]
   }
 }
