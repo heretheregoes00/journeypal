@@ -31,6 +31,15 @@ export async function GET(req: NextRequest) {
   const supabase = createClient();
   const { error } = await supabase.auth.exchangeCodeForSession(code);
   if (error) {
+    console.error(
+      "exchangeCodeForSession failed —",
+      "message:",
+      error.message,
+      "| status:",
+      error.status,
+      "| code:",
+      error.code
+    );
     return redirectToLogin(req, "exchange");
   }
 
