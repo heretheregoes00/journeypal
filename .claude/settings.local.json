@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(node -e \"console.log\\('@supabase/ssr', require\\('@supabase/ssr/package.json'\\).version\\)\")",
+      "Bash(curl -s -o /dev/null -w \"GET /login                       -> %{http_code}\\\\n\" http://localhost:3000/login)",
+      "Bash(curl -s -o /dev/null -w \"GET /login?error=link            -> %{http_code}\\\\n\" \"http://localhost:3000/login?error=link\")",
+      "Bash(curl -s -o /dev/null -w \"GET /login/check-email           -> %{http_code}\\\\n\" http://localhost:3000/login/check-email)",
+      "Bash(curl -s -o /dev/null -w \"GET /login/check-email?email=... -> %{http_code}\\\\n\" \"http://localhost:3000/login/check-email?email=mina@uni.edu\")",
+      "Bash(curl -s http://localhost:3000/login)",
+      "Bash(curl -s \"http://localhost:3000/login?error=link\")",
+      "Bash(curl -s \"http://localhost:3000/login/check-email?email=mina@uni.edu\")",
+      "Bash(curl -s -o /dev/null -w \"no code         -> %{http_code}  Location: %{redirect_url}\\\\n\" \"http://localhost:3000/auth/callback\")",
+      "Bash(curl -s -o /dev/null -w \"error param     -> %{http_code}  Location: %{redirect_url}\\\\n\" \"http://localhost:3000/auth/callback?error=access_denied\")",
+      "Bash(curl -s -o /dev/null -w \"bogus code      -> %{http_code}  Location: %{redirect_url}\\\\n\" \"http://localhost:3000/auth/callback?code=bogus123\")",
+      "Bash(curl -s -o /dev/null -w \"GET /login -> %{http_code}\\\\n\" http://localhost:3000/login)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
+    ]
+  }
+}
