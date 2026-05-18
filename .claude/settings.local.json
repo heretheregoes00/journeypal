@@ -33,7 +33,12 @@
       "Bash(curl -s -o /dev/null -w \"GET / -> %{http_code}\\\\n\" http://localhost:3000/)",
       "Bash(curl -s -o /tmp/h.html -w \"GET / -> %{http_code}\\\\n\" http://localhost:3000/)",
       "Bash(git ls-remote *)",
-      "Bash(git commit --amend -m ' *)"
+      "Bash(git commit --amend -m ' *)",
+      "Bash(curl -s https://journeypal.co/)",
+      "Bash(curl -sI https://journeypal.co/)",
+      "Bash(xargs kill)",
+      "Bash(npm run *)",
+      "Bash(echo \"dev server restarting \\(pid $!\\)\")"
     ]
   }
 }
