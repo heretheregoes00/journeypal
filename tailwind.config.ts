@@ -26,6 +26,8 @@ const config: Config = {
           muted: "#475569",
           soft: "#64748B",
         },
+        cream: "#FDF8F3",
+        mist: "#EEF4F8",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
