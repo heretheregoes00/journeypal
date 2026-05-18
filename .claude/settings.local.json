@@ -27,7 +27,13 @@
       "Bash(curl -s -o /dev/null -w \"GET /tracker/setup -> %{http_code}  %{redirect_url}\\\\n\" http://localhost:3000/tracker/setup)",
       "Bash(curl -s -o /dev/null -w \"GET /tracker       -> %{http_code}  %{redirect_url}\\\\n\" http://localhost:3000/tracker)",
       "Bash(curl -s -X POST -H \"Content-Type: application/json\" -d '{\"name\":\"T\",\"university\":\"KAIST\"}' -w \"  [%{http_code}]\\\\n\" http://localhost:3000/api/tracker/setup)",
-      "Bash(curl -s -o /dev/null -w \"GET /auth/callback \\(no code\\) -> %{http_code} %{redirect_url}\\\\n\" http://localhost:3000/auth/callback)"
+      "Bash(curl -s -o /dev/null -w \"GET /auth/callback \\(no code\\) -> %{http_code} %{redirect_url}\\\\n\" http://localhost:3000/auth/callback)",
+      "Bash(curl -s -o /tmp/jp_home.html -w \"status: %{http_code}\\\\n\" http://localhost:3000/)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -o /dev/null -w \"GET / -> %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /tmp/h.html -w \"GET / -> %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(git ls-remote *)",
+      "Bash(git commit --amend -m ' *)"
     ]
   }
 }
