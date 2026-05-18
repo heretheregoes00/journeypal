@@ -16,7 +16,17 @@
       "Bash(curl -s -o /dev/null -w \"GET /login -> %{http_code}\\\\n\" http://localhost:3000/login)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(lsof -ti:3000)",
+      "Bash(curl -s -o /dev/null -w \"status: %{http_code}  redirect: %{redirect_url}\\\\n\" http://localhost:3000/tracker)",
+      "Bash(node -e \"console.log\\('lucide-react', require\\('lucide-react/package.json'\\).version\\)\")",
+      "Bash(node *)",
+      "Bash(curl -s -o /dev/null -w \"GET  /tracker         -> %{http_code}  -> %{redirect_url}\\\\n\" http://localhost:3000/tracker)",
+      "Bash(curl -s -o /dev/null -w \"GET  /tracker/setup   -> %{http_code}  -> %{redirect_url}\\\\n\" http://localhost:3000/tracker/setup)",
+      "Bash(curl -s -X POST -H \"Content-Type: application/json\" -d '{\"name\":\"Test\",\"arrival_date\":\"2026-09-01\",\"university\":\"Yonsei University\"}' -w \"  [status %{http_code}]\\\\n\" http://localhost:3000/api/tracker/setup)",
+      "Bash(curl -s -o /dev/null -w \"GET /tracker/setup -> %{http_code}  %{redirect_url}\\\\n\" http://localhost:3000/tracker/setup)",
+      "Bash(curl -s -o /dev/null -w \"GET /tracker       -> %{http_code}  %{redirect_url}\\\\n\" http://localhost:3000/tracker)",
+      "Bash(curl -s -X POST -H \"Content-Type: application/json\" -d '{\"name\":\"T\",\"university\":\"KAIST\"}' -w \"  [%{http_code}]\\\\n\" http://localhost:3000/api/tracker/setup)"
     ]
   }
 }
