@@ -10,9 +10,9 @@ const geistSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "JourneyPal — Your personalized guide to studying in Korea",
+  title: "JourneyPal — Your relocation tracker for moving to Korea",
   description:
-    "A custom PDF guide tailored to your university, visa type, and arrival date in Korea. Built for international students. $15.",
+    "Stay on top of every step of your move to Korea. Visa, housing, banking, ARC, settling in. Built by someone who moved from NZ to Korea.",
 };
 
 export default function RootLayout({

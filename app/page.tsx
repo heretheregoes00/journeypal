@@ -1,465 +1,385 @@
-"use client";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { GraduationCap, Briefcase, Plane, Check, ChevronDown } from "lucide-react";
+import Logo from "./components/Logo";
+import HeroVisual from "./components/HeroVisual";
 
-import { useState } from "react";
-import Image from "next/image";
-import EmailCapture from "./components/EmailCapture";
+export const metadata: Metadata = {
+  title: "JourneyPal — Your relocation tracker for moving to Korea",
+  description:
+    "Stay on top of every step of your move to Korea. Visa, housing, banking, ARC, settling in. Built by someone who moved from NZ to Korea.",
+};
 
-const LOGO_ASPECT = 642 / 113;
-
-export default function Home() {
-  const [open, setOpen] = useState(false);
-  const openCapture = () => setOpen(true);
-
+export default function LandingPage() {
   return (
-    <main className="min-h-screen flex flex-col">
-      <SiteHeader onCta={openCapture} />
-      <Hero onCta={openCapture} />
-      <HowItWorks />
-      <WhatsIncluded />
-      <SocialProof />
-      <FinalCta onCta={openCapture} />
+    <>
+      <NavBar />
+      <main>
+        <Hero />
+        <Personas />
+        <HowItWorks />
+        <Pricing />
+        <FounderNote />
+        <FAQ />
+        <FinalCta />
+      </main>
       <Footer />
-      <EmailCapture open={open} onClose={() => setOpen(false)} />
-    </main>
+    </>
   );
 }
 
-function SiteHeader({ onCta }: { onCta: () => void }) {
+function NavBar() {
   return (
-    <header className="w-full">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8 py-5 flex items-center justify-between">
-        <a href="#" aria-label="JourneyPal home" className="inline-flex">
-          <Logo height={28} />
-        </a>
-        <button
-          onClick={onCta}
-          className="hidden sm:inline-flex items-center rounded-full bg-brand-500 px-4 py-2 text-sm font-semibold text-white shadow-cta hover:bg-brand-600 active:translate-y-px transition"
-        >
-          Get notified
-        </button>
-      </div>
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <Link href="/" aria-label="JourneyPal home" className="inline-flex">
+          <Logo height={24} />
+        </Link>
+        <div className="flex items-center gap-3 sm:gap-5">
+          <Link
+            href="/login"
+            className="text-sm font-medium text-ink-muted transition hover:text-ink"
+          >
+            Log in
+          </Link>
+          <Link
+            href="/login"
+            className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-600"
+          >
+            Start your tracker
+          </Link>
+        </div>
+      </nav>
     </header>
   );
 }
 
-function Logo({ height = 26 }: { height?: number }) {
-  const imgWidth = Math.round(height * LOGO_ASPECT);
+function Hero() {
   return (
-    <Image
-      src="/journeypal_logo.svg"
-      alt="JourneyPal"
-      width={imgWidth}
-      height={height}
-      priority
-      className="block"
-    />
-  );
-}
-
-function Hero({ onCta }: { onCta: () => void }) {
-  return (
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50 to-white" />
-      <div className="absolute -top-24 -right-24 -z-10 h-72 w-72 rounded-full bg-brand-200/40 blur-3xl" />
-      <div className="absolute -bottom-32 -left-16 -z-10 h-72 w-72 rounded-full bg-brand-100/60 blur-3xl" />
-
-      <div className="mx-auto max-w-6xl px-5 sm:px-8 pt-10 sm:pt-16 pb-14 sm:pb-24">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/70 px-3 py-1 text-xs font-medium text-brand-700">
-              <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
-              Built for international students moving to Korea
-            </span>
-            <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-ink text-balance">
-              Your personalized guide to studying in Korea
-            </h1>
-            <p className="mt-5 text-lg sm:text-xl text-ink-muted text-balance">
-              Get a custom PDF guide tailored to your{" "}
-              <span className="text-ink font-medium">university</span>,{" "}
-              <span className="text-ink font-medium">visa type</span>, and{" "}
-              <span className="text-ink font-medium">arrival date</span> — for
-              just <span className="text-ink font-semibold">$15</span>.
-            </p>
-
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={onCta}
-                className="inline-flex items-center justify-center rounded-xl bg-brand-500 px-6 py-3.5 text-base font-semibold text-white shadow-cta hover:bg-brand-600 active:translate-y-px transition"
-              >
-                Get notified at launch
-                <svg
-                  className="ml-2"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden
-                >
-                  <path d="M5 12h14" />
-                  <path d="M13 5l7 7-7 7" />
-                </svg>
-              </button>
-              <a
-                href="#how-it-works"
-                className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-base font-semibold text-ink hover:border-brand-300 hover:text-brand-700 transition"
-              >
-                How it works
-              </a>
-            </div>
-
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-ink-soft">
-              <div className="flex items-center gap-1.5">
-                <CheckDot /> Delivered as PDF
-              </div>
-              <div className="flex items-center gap-1.5">
-                <CheckDot /> Ready in minutes
-              </div>
-              <div className="flex items-center gap-1.5">
-                <CheckDot /> One flat price
-              </div>
-            </div>
+    <section className="mx-auto max-w-6xl px-6 py-20 sm:py-28">
+      <div className="grid items-center gap-14 lg:grid-cols-2">
+        <div>
+          <span className="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-ink-muted">
+            Built by someone who moved from 🇳🇿 to 🇰🇷
+          </span>
+          <h1 className="mt-5 text-balance text-4xl font-bold tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            Your relocation tracker for moving to Korea
+          </h1>
+          <p className="mt-5 text-balance text-lg text-ink-muted">
+            Stay on top of every step of your move — visa, housing, banking,
+            ARC, settling in. Built for international students.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Link
+              href="/login"
+              className="inline-flex items-center justify-center rounded-lg bg-brand-500 px-6 py-3 text-base font-semibold text-white transition hover:bg-brand-600"
+            >
+              Start your tracker — free
+            </Link>
+            <a
+              href="#how-it-works"
+              className="inline-flex items-center justify-center rounded-lg px-6 py-3 text-base font-semibold text-ink-muted transition hover:text-ink"
+            >
+              See how it works
+            </a>
           </div>
-
-          <HeroVisual />
+          <p className="mt-4 text-sm text-ink-soft">
+            Free to start · No credit card required
+          </p>
         </div>
+        <HeroVisual />
       </div>
     </section>
   );
 }
 
-function CheckDot() {
-  return (
-    <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-brand-500 text-white">
-      <svg
-        width="10"
-        height="10"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden
-      >
-        <polyline points="20 6 9 17 4 12" />
-      </svg>
-    </span>
-  );
-}
+const PERSONAS = [
+  {
+    icon: GraduationCap,
+    label: "Undergraduate exchange students",
+    description: "Spending a semester or year at SNU, Yonsei, Korea U or KAIST",
+  },
+  {
+    icon: Briefcase,
+    label: "Full-degree international students",
+    description: "Starting a 2-4 year program on a D-2 visa",
+  },
+  {
+    icon: Plane,
+    label: "KGSP scholars",
+    description:
+      "Government-sponsored students navigating Korean academic life",
+  },
+];
 
-function HeroVisual() {
+function Personas() {
   return (
-    <div className="relative">
-      <div className="relative mx-auto max-w-md lg:max-w-none">
-        <div className="rounded-2xl bg-white p-5 shadow-card border border-slate-100">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-brand-500 text-white grid place-items-center text-sm font-bold">
-                J
-              </div>
-              <div>
-                <div className="text-sm font-semibold">Your JourneyPal guide</div>
-                <div className="text-xs text-ink-soft">Personalized PDF · 28 pages</div>
-              </div>
+    <section className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+      <h2 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+        Built for
+      </h2>
+      <div className="mt-10 grid gap-5 md:grid-cols-3">
+        {PERSONAS.map((p) => {
+          const Icon = p.icon;
+          return (
+            <div
+              key={p.label}
+              className="rounded-2xl border border-slate-200 bg-slate-50 p-6"
+            >
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
+                <Icon size={20} />
+              </span>
+              <h3 className="mt-4 font-semibold text-ink">{p.label}</h3>
+              <p className="mt-1.5 text-sm text-ink-muted">{p.description}</p>
             </div>
-            <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">
-              Ready
-            </span>
-          </div>
-
-          <ul className="mt-5 space-y-2.5 text-sm">
-            {[
-              { label: "Yonsei University · Sinchon campus", tag: "Custom" },
-              { label: "D-2 student visa walkthrough", tag: "Visa" },
-              { label: "Arrival: March 2 — week-by-week plan", tag: "Timeline" },
-              { label: "Goshiwon near campus · ₩450k/mo", tag: "Housing" },
-              { label: "T-money, KB Bank, ARC office hours", tag: "Setup" },
-            ].map((row) => (
-              <li
-                key={row.label}
-                className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-2"
-              >
-                <span className="text-ink">{row.label}</span>
-                <span className="text-xs text-brand-700 bg-white border border-brand-100 rounded-full px-2 py-0.5">
-                  {row.tag}
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-5 flex items-center justify-between text-xs text-ink-soft">
-            <span>journeypal.co</span>
-            <span>v1 · sample preview</span>
-          </div>
-        </div>
-
-        <div className="absolute -bottom-5 -right-4 rotate-3 rounded-xl bg-white px-3 py-2 text-xs shadow-card border border-slate-100">
-          <div className="font-semibold text-ink">$15 · one-time</div>
-          <div className="text-ink-soft">No subscription</div>
-        </div>
+          );
+        })}
       </div>
-    </div>
+    </section>
   );
 }
+
+const STEPS = [
+  {
+    n: 1,
+    title: "Sign up with email or Google",
+    description: "Free, takes 30 seconds. No credit card.",
+  },
+  {
+    n: 2,
+    title: "Get your personalized tracker",
+    description:
+      "30 items across 4 phases of your move, tailored to your university.",
+  },
+  {
+    n: 3,
+    title: "Check things off as you go",
+    description:
+      "We'll keep you on track. Upgrade anytime to unlock everything.",
+  },
+];
 
 function HowItWorks() {
-  const steps = [
-    {
-      n: "01",
-      title: "Answer 10 questions",
-      desc: "Tell us your university, visa type, arrival date, budget, and a few preferences. Takes ~3 minutes.",
-    },
-    {
-      n: "02",
-      title: "Pay $15",
-      desc: "One flat price, no subscription. Secure checkout with card or Apple Pay.",
-    },
-    {
-      n: "03",
-      title: "Get your personalized PDF in minutes",
-      desc: "We generate a guide built around your situation — delivered straight to your inbox.",
-    },
-  ];
-
   return (
-    <section id="how-it-works" className="py-16 sm:py-24">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <SectionHeading
-          eyebrow="How it works"
-          title="From confused to settled, in three steps"
-          subtitle="No generic checklists. Just the answers that actually apply to you."
-        />
-        <ol className="mt-10 grid gap-5 md:grid-cols-3">
-          {steps.map((s) => (
-            <li
-              key={s.n}
-              className="rounded-2xl bg-white border border-slate-100 shadow-card p-6"
-            >
-              <div className="inline-flex h-9 items-center justify-center rounded-full bg-brand-50 px-3 text-sm font-semibold text-brand-700">
-                Step {s.n}
-              </div>
-              <h3 className="mt-4 text-lg font-semibold text-ink">{s.title}</h3>
-              <p className="mt-2 text-ink-muted">{s.desc}</p>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
-  );
-}
-
-function WhatsIncluded() {
-  const items = [
-    {
-      title: "D-2 / D-4 visa walkthrough",
-      desc: "Documents, embassy steps, common rejection reasons, and timing.",
-    },
-    {
-      title: "ARC (Alien Registration Card) registration",
-      desc: "Where to go in your district, what to bring, fees, and waiting times.",
-    },
-    {
-      title: "Dorm vs goshiwon vs one-room",
-      desc: "Honest pros and cons with realistic monthly budgets in ₩.",
-    },
-    {
-      title: "Phone plan setup",
-      desc: "Prepaid vs postpaid, the best carriers for foreigners, and how to sign up.",
-    },
-    {
-      title: "Banking",
-      desc: "Which banks open accounts for international students, and what you need.",
-    },
-    {
-      title: "T-money & transit",
-      desc: "Subway, bus, and KTX basics — and the cheapest way to top up.",
-    },
-    {
-      title: "NHIS healthcare",
-      desc: "How national health insurance works for students, and what it costs.",
-    },
-    {
-      title: "Groceries from your home country",
-      desc: "Where to find familiar foods near you — by country and by city.",
-    },
-    {
-      title: "Emergency Korean phrases",
-      desc: "What to say at the hospital, police station, and pharmacy.",
-    },
-    {
-      title: "University-specific notes",
-      desc: "SNU, Yonsei, Korea U, KAIST, Hanyang, Sogang, Ewha, and more.",
-    },
-  ];
-
-  return (
-    <section className="py-16 sm:py-24 bg-slate-50/60 border-y border-slate-100">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <SectionHeading
-          eyebrow="What's included"
-          title="Every section, tailored to your situation"
-          subtitle="No filler. Just the things you actually need in your first weeks."
-        />
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2">
-          {items.map((it) => (
-            <li
-              key={it.title}
-              className="flex items-start gap-3 rounded-2xl bg-white border border-slate-100 p-5"
-            >
-              <span className="mt-0.5 inline-flex h-6 w-6 flex-none items-center justify-center rounded-full bg-brand-500 text-white">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </span>
-              <div>
-                <h3 className="font-semibold text-ink">{it.title}</h3>
-                <p className="text-ink-muted text-sm mt-0.5">{it.desc}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-function SocialProof() {
-  return (
-    <section className="py-16 sm:py-24">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <SectionHeading
-          eyebrow="From students who've done it"
-          title="Stories coming soon"
-          subtitle="We'll feature the first JourneyPal students here right after launch."
-        />
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="rounded-2xl border border-dashed border-slate-200 bg-white p-6"
-              aria-hidden
-            >
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-brand-50" />
-                <div className="flex-1 space-y-2">
-                  <div className="h-3 w-24 rounded bg-slate-100" />
-                  <div className="h-2.5 w-16 rounded bg-slate-100" />
-                </div>
-              </div>
-              <div className="mt-5 space-y-2">
-                <div className="h-2.5 w-full rounded bg-slate-100" />
-                <div className="h-2.5 w-11/12 rounded bg-slate-100" />
-                <div className="h-2.5 w-9/12 rounded bg-slate-100" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FinalCta({ onCta }: { onCta: () => void }) {
-  return (
-    <section className="pb-20">
-      <div className="mx-auto max-w-5xl px-5 sm:px-8">
-        <div className="relative overflow-hidden rounded-2xl bg-brand-500 px-6 py-12 sm:px-12 sm:py-16 text-white shadow-cta">
-          <div className="absolute -top-16 -right-16 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
-          <div className="absolute -bottom-20 -left-16 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
-          <div className="relative">
-            <h2 className="text-3xl sm:text-4xl font-bold text-balance max-w-2xl">
-              Be the first to land in Korea with a guide that&apos;s actually yours.
-            </h2>
-            <p className="mt-4 text-brand-50/90 max-w-xl">
-              We&apos;ll email you the moment JourneyPal opens. No spam — just one
-              short note.
-            </p>
-            <button
-              onClick={onCta}
-              className="mt-7 inline-flex items-center justify-center rounded-xl bg-white px-6 py-3.5 text-base font-semibold text-brand-700 hover:bg-brand-50 active:translate-y-px transition"
-            >
-              Get notified at launch
-            </button>
+    <section
+      id="how-it-works"
+      className="mx-auto max-w-6xl scroll-mt-24 px-6 py-20 sm:py-24"
+    >
+      <h2 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+        How it works
+      </h2>
+      <div className="mt-10 grid gap-8 md:grid-cols-3">
+        {STEPS.map((s) => (
+          <div key={s.n}>
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-500 text-base font-semibold text-white">
+              {s.n}
+            </span>
+            <h3 className="mt-4 text-lg font-semibold text-ink">{s.title}</h3>
+            <p className="mt-1.5 text-ink-muted">{s.description}</p>
           </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+const FREE_FEATURES = [
+  "Magic link or Google sign-in",
+  "5 essential pre-arrival items",
+  "Save your progress",
+];
+
+const PAID_FEATURES = [
+  "Everything in Free",
+  "All 30 items across 4 phases",
+  "Days-to-arrival countdown",
+  "On-track progress tracking",
+  "Personalized links per university",
+  "Discord community access",
+];
+
+function FeatureRow({ children }: { children: string }) {
+  return (
+    <li className="flex items-start gap-2.5">
+      <Check
+        size={18}
+        strokeWidth={2.5}
+        className="mt-0.5 flex-none text-brand-500"
+      />
+      <span className="text-sm text-ink-muted">{children}</span>
+    </li>
+  );
+}
+
+function Pricing() {
+  return (
+    <section className="mx-auto max-w-5xl px-6 py-20 sm:py-24">
+      <h2 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+        Pricing
+      </h2>
+      <p className="mt-3 text-lg text-ink-muted">
+        Start free. Upgrade when you need the full tracker.
+      </p>
+      <div className="mt-10 grid gap-5 md:grid-cols-2">
+        {/* Free */}
+        <div className="flex flex-col rounded-2xl border border-slate-200 p-7">
+          <h3 className="text-lg font-semibold text-ink">Free</h3>
+          <div className="mt-3">
+            <span className="text-4xl font-bold text-ink">$0</span>
+          </div>
+          <p className="mt-1 text-sm text-ink-muted">Get started</p>
+          <ul className="mb-8 mt-6 space-y-3">
+            {FREE_FEATURES.map((f) => (
+              <FeatureRow key={f}>{f}</FeatureRow>
+            ))}
+          </ul>
+          <Link
+            href="/login"
+            className="mt-auto inline-flex items-center justify-center rounded-lg border border-slate-300 px-5 py-3 text-sm font-semibold text-ink transition hover:border-brand-300 hover:text-brand-700"
+          >
+            Start your tracker
+          </Link>
+        </div>
+
+        {/* Paid */}
+        <div className="relative flex flex-col rounded-2xl border-2 border-brand-500 p-7">
+          <span className="absolute -top-3 left-7 rounded-full bg-brand-500 px-3 py-1 text-xs font-semibold text-white">
+            Most popular
+          </span>
+          <h3 className="text-lg font-semibold text-ink">Full tracker</h3>
+          <div className="mt-3 flex items-baseline gap-1">
+            <span className="text-4xl font-bold text-ink">$10</span>
+            <span className="text-sm font-medium text-ink-muted">/ month</span>
+          </div>
+          <p className="mt-1 text-sm text-ink-muted">Everything you need</p>
+          <ul className="mb-8 mt-6 space-y-3">
+            {PAID_FEATURES.map((f) => (
+              <FeatureRow key={f}>{f}</FeatureRow>
+            ))}
+          </ul>
+          <Link
+            href="/login"
+            className="mt-auto inline-flex items-center justify-center rounded-lg bg-brand-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-600"
+          >
+            Upgrade to full tracker
+          </Link>
         </div>
       </div>
     </section>
   );
 }
+
+function FounderNote() {
+  return (
+    <section className="mx-auto max-w-4xl px-6 py-20 sm:py-24">
+      <h2 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+        Why JourneyPal exists
+      </h2>
+      <p className="mt-8 text-lg leading-relaxed text-ink-muted">
+        I moved from New Zealand to Seoul on my own and learned the hard way
+        how chaotic relocating to Korea can be. ARC deadlines, bank account
+        headaches, neighborhood research, finding a goshiwon at the last
+        minute — there was no single place that organized all of it.
+        JourneyPal is the tool I wished I had.
+        <span className="mt-4 block font-semibold text-ink">— MJ</span>
+      </p>
+    </section>
+  );
+}
+
+const FAQS = [
+  {
+    q: "Do I need to pay to use JourneyPal?",
+    a: "No. The free tier covers your first 5 pre-arrival items and is yours forever. The $10/month plan unlocks the full 30-item tracker, countdown, and community.",
+  },
+  {
+    q: "Can I cancel anytime?",
+    a: "Yes. Cancel anytime from your account. You'll keep access until the end of your billing period.",
+  },
+  {
+    q: "Is this only for students?",
+    a: "Right now, JourneyPal is built specifically for international students moving to Korea on D-2, D-4, exchange, or KGSP visas. We may expand to other categories later.",
+  },
+  {
+    q: "What if my university isn't in the list?",
+    a: "You can select 'Other' during setup and add your university manually. You'll still get the full tracker, just with generic Seoul-area links instead of campus-specific ones.",
+  },
+  {
+    q: "Can I get a refund?",
+    a: "Yes — if you cancel within 7 days of your first paid month, we'll refund you in full, no questions.",
+  },
+];
+
+function FAQ() {
+  return (
+    <section className="mx-auto max-w-3xl px-6 py-20 sm:py-24">
+      <h2 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+        Frequently asked questions
+      </h2>
+      <div className="mt-8 border-t border-slate-200">
+        {FAQS.map((item) => (
+          <details key={item.q} className="group border-b border-slate-200">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-base font-medium text-ink [&::-webkit-details-marker]:hidden">
+              {item.q}
+              <ChevronDown
+                size={18}
+                className="flex-none text-ink-soft transition group-open:rotate-180"
+              />
+            </summary>
+            <p className="pb-5 text-ink-muted">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FinalCta() {
+  return (
+    <section className="mx-auto max-w-3xl px-6 py-20 text-center sm:py-28">
+      <h2 className="text-balance text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+        Start your move today.
+      </h2>
+      <p className="mt-3 text-lg text-ink-muted">
+        Free to try. No credit card required.
+      </p>
+      <Link
+        href="/login"
+        className="mt-8 inline-flex items-center justify-center rounded-lg bg-brand-500 px-7 py-3.5 text-base font-semibold text-white transition hover:bg-brand-600"
+      >
+        Start your tracker
+      </Link>
+    </section>
+  );
+}
+
+const FOOTER_LINKS = [
+  { label: "About", href: "#" },
+  { label: "Privacy", href: "#" },
+  { label: "Terms", href: "#" },
+  { label: "Contact", href: "mailto:hello@journeypal.co" },
+];
 
 function Footer() {
   return (
-    <footer className="mt-auto border-t border-slate-100 bg-white">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8 py-10 flex flex-col sm:flex-row gap-6 sm:items-center sm:justify-between">
-        <div className="flex items-center gap-3">
-          <Logo height={22} />
-          <span className="text-sm text-ink-muted">
-            © {new Date().getFullYear()} JourneyPal
-          </span>
-        </div>
-        <nav className="flex flex-wrap items-center gap-4 text-sm">
-          <a
-            href="https://instagram.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-ink-muted hover:text-brand-700 transition"
-          >
-            Instagram
-          </a>
-          <a
-            href="https://tiktok.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-ink-muted hover:text-brand-700 transition"
-          >
-            TikTok
-          </a>
-          <a
-            href="mailto:hello@journeypal.co"
-            className="text-ink-muted hover:text-brand-700 transition"
-          >
-            hello@journeypal.co
-          </a>
+    <footer className="border-t border-slate-200">
+      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10 sm:flex-row sm:items-center sm:justify-between">
+        <Logo height={22} />
+        <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+          {FOOTER_LINKS.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              className="text-ink-muted transition hover:text-ink"
+            >
+              {l.label}
+            </a>
+          ))}
         </nav>
+        <p className="text-sm text-ink-soft">
+          Built in Seoul. © {new Date().getFullYear()} JourneyPal.
+        </p>
       </div>
     </footer>
-  );
-}
-
-function SectionHeading({
-  eyebrow,
-  title,
-  subtitle,
-}: {
-  eyebrow: string;
-  title: string;
-  subtitle?: string;
-}) {
-  return (
-    <div className="max-w-2xl">
-      <div className="text-sm font-semibold uppercase tracking-wider text-brand-700">
-        {eyebrow}
-      </div>
-      <h2 className="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-ink text-balance">
-        {title}
-      </h2>
-      {subtitle && (
-        <p className="mt-3 text-lg text-ink-muted text-balance">{subtitle}</p>
-      )}
-    </div>
   );
 }
