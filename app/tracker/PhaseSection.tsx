@@ -32,6 +32,7 @@ import {
   PiggyBank,
   Circle,
   ArrowUpRight,
+  Lock,
   type LucideIcon,
 } from "lucide-react";
 import { CHECKLIST_PHASES } from "@/lib/checklist-items";
@@ -70,6 +71,9 @@ const ICON_MAP: Record<string, LucideIcon> = {
   PiggyBank,
 };
 
+// Items numbered above this are gated behind the $19 tracker purchase.
+const FREE_ITEM_LIMIT = 5;
+
 function CtaLink({
   label,
   url,
@@ -92,12 +96,43 @@ function CtaLink({
   );
 }
 
-export default function PhaseSection({ university }: { university: string }) {
+export default function PhaseSection({
+  university,
+  hasTracker,
+}: {
+  university: string;
+  hasTracker: boolean;
+}) {
   const [activePhase, setActivePhase] = useState(1);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
+
   const phase =
     CHECKLIST_PHASES.find((p) => p.number === activePhase) ??
     CHECKLIST_PHASES[0];
   const uniLinks = getUniversityLinks(university);
+
+  async function handleCheckout() {
+    setCheckoutLoading(true);
+    setCheckoutError("");
+    try {
+      const res = await fetch("/api/checkout", { method: "POST" });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.url) {
+        setCheckoutLoading(false);
+        setCheckoutError(
+          data.error === "already_purchased"
+            ? "You already have the full tracker — refresh the page."
+            : "Couldn't start checkout. Please try again."
+        );
+        return;
+      }
+      window.location.href = data.url;
+    } catch {
+      setCheckoutLoading(false);
+      setCheckoutError("Network error. Please try again.");
+    }
+  }
 
   return (
     <div>
@@ -142,6 +177,25 @@ export default function PhaseSection({ university }: { university: string }) {
         </h2>
         <ul className="mt-4 space-y-3">
           {phase.items.map((item) => {
+            // Gated items render as locked rows until the tracker is purchased.
+            if (!hasTracker && item.number > FREE_ITEM_LIMIT) {
+              return (
+                <li
+                  key={item.number}
+                  className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4"
+                >
+                  <Lock
+                    size={18}
+                    className="shrink-0 text-slate-400"
+                    aria-hidden
+                  />
+                  <span className="text-[15px] font-medium text-slate-400">
+                    {item.title}
+                  </span>
+                </li>
+              );
+            }
+
             const Icon = ICON_MAP[item.iconName] ?? Circle;
             const universityUrl = item.universityResource
               ? uniLinks[item.universityResource.link]
@@ -192,6 +246,30 @@ export default function PhaseSection({ university }: { university: string }) {
             );
           })}
         </ul>
+
+        {/* Paywall CTA — shown until the tracker is purchased. */}
+        {!hasTracker && (
+          <div className="mt-6 rounded-2xl border border-brand-200 bg-brand-50/60 p-6 text-center">
+            <h3 className="text-lg font-bold tracking-tight text-ink">
+              Unlock all 30 items
+            </h3>
+            <p className="mt-1.5 text-sm text-ink-muted">
+              Get the full tracker — $19 one-time. Includes 1 month free
+              community access.
+            </p>
+            <button
+              type="button"
+              onClick={handleCheckout}
+              disabled={checkoutLoading}
+              className="mt-4 inline-flex items-center justify-center rounded-lg bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-cta hover:bg-brand-600 active:translate-y-px disabled:opacity-60 transition"
+            >
+              {checkoutLoading ? "Redirecting…" : "Get the full tracker"}
+            </button>
+            {checkoutError && (
+              <p className="mt-2 text-sm text-red-600">{checkoutError}</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

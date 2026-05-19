@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase-server";
 import { CHECKLIST_PHASES } from "@/lib/checklist-items";
 import AccountMenu from "./AccountMenu";
+import CheckoutBanner from "./CheckoutBanner";
 import PhaseSection from "./PhaseSection";
 
 export const metadata: Metadata = {
@@ -23,7 +24,13 @@ function formatArrivalDate(value: string): string {
   });
 }
 
-export default async function TrackerPage() {
+type SearchParams = { [key: string]: string | string[] | undefined };
+
+export default async function TrackerPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   const supabase = createClient();
   const {
     data: { user },
@@ -34,7 +41,7 @@ export default async function TrackerPage() {
 
   const { data: tracker } = await supabase
     .from("trackers")
-    .select("name, arrival_date, university")
+    .select("name, arrival_date, university, has_tracker")
     .eq("user_id", user.id)
     .maybeSingle();
 
@@ -43,11 +50,17 @@ export default async function TrackerPage() {
     redirect("/tracker/setup");
   }
 
+  const checkout = searchParams.checkout;
+  const checkoutStatus =
+    checkout === "success" || checkout === "cancelled" ? checkout : null;
+
   const progress = TOTAL_ITEMS > 0 ? (COMPLETED_ITEMS / TOTAL_ITEMS) * 100 : 0;
 
   return (
     <main className="min-h-screen bg-cream">
       <div className="mx-auto max-w-2xl px-5 py-6 sm:py-10">
+        {checkoutStatus && <CheckoutBanner status={checkoutStatus} />}
+
         {/* Header */}
         <header className="flex items-start justify-between gap-4">
           <div>
@@ -88,7 +101,10 @@ export default async function TrackerPage() {
 
         {/* Phase navigation + active phase */}
         <div className="mt-6">
-          <PhaseSection university={tracker.university} />
+          <PhaseSection
+            university={tracker.university}
+            hasTracker={!!tracker.has_tracker}
+          />
         </div>
 
         <footer className="mt-10">
