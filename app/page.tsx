@@ -66,8 +66,9 @@ function Hero() {
             Your relocation tracker for moving to Korea
           </h1>
           <p className="mt-5 text-balance text-lg text-ink-muted">
-            Stay on top of every step of your move — visa, housing, banking,
-            ARC, settling in. Built for international students.
+            Every step of moving to Korea in one place — visa, housing,
+            banking, ARC, settling in. Start free; unlock all 30 steps for a
+            one-time $19.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link
@@ -153,9 +154,9 @@ const STEPS = [
   },
   {
     n: 3,
-    title: "Check things off as you go",
+    title: "Unlock the full tracker",
     description:
-      "We'll keep you on track. Upgrade anytime to unlock everything.",
+      "Unlock the full 30-item tracker for $19 — yours forever.",
   },
 ];
 
@@ -184,18 +185,24 @@ function HowItWorks() {
 }
 
 const FREE_FEATURES = [
-  "Magic link or Google sign-in",
+  "Sign up free with magic link or Google",
   "5 essential pre-arrival items",
   "Save your progress",
 ];
 
-const PAID_FEATURES = [
+const TRACKER_FEATURES = [
   "Everything in Free",
   "All 30 items across 4 phases",
   "Days-to-arrival countdown",
   "On-track progress tracking",
   "Personalized links per university",
-  "Discord community access",
+  "1 month free Discord access",
+];
+
+const COMMUNITY_FEATURES = [
+  "Continued Discord access where JourneyPal answers your questions",
+  "Ongoing relocation support beyond the checklist",
+  "Cancel anytime",
 ];
 
 function FeatureRow({ children }: { children: string }) {
@@ -213,21 +220,21 @@ function FeatureRow({ children }: { children: string }) {
 
 function Pricing() {
   return (
-    <section className="mx-auto max-w-5xl px-6 py-20 sm:py-24">
+    <section className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
       <h2 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
         Pricing
       </h2>
       <p className="mt-3 text-lg text-ink-muted">
-        Start free. Upgrade when you need the full tracker.
+        Start free. Pay once for the full tracker. Add Community if you want it.
       </p>
-      <div className="mt-10 grid gap-5 md:grid-cols-2">
+      <div className="mt-10 grid gap-5 md:grid-cols-3">
         {/* Free */}
         <div className="flex flex-col rounded-2xl border border-slate-200 p-7">
           <h3 className="text-lg font-semibold text-ink">Free</h3>
           <div className="mt-3">
             <span className="text-4xl font-bold text-ink">$0</span>
           </div>
-          <p className="mt-1 text-sm text-ink-muted">Get started</p>
+          <p className="mt-1 text-sm text-ink-muted">Try the tracker</p>
           <ul className="mb-8 mt-6 space-y-3">
             {FREE_FEATURES.map((f) => (
               <FeatureRow key={f}>{f}</FeatureRow>
@@ -237,23 +244,25 @@ function Pricing() {
             href="/login"
             className="mt-auto inline-flex items-center justify-center rounded-lg border border-slate-300 px-5 py-3 text-sm font-semibold text-ink transition hover:border-brand-300 hover:text-brand-700"
           >
-            Start your tracker
+            Start free
           </Link>
         </div>
 
-        {/* Paid */}
+        {/* Full Tracker — highlighted */}
         <div className="relative flex flex-col rounded-2xl border-2 border-brand-500 p-7">
           <span className="absolute -top-3 left-7 rounded-full bg-brand-500 px-3 py-1 text-xs font-semibold text-white">
             Most popular
           </span>
-          <h3 className="text-lg font-semibold text-ink">Full tracker</h3>
-          <div className="mt-3 flex items-baseline gap-1">
-            <span className="text-4xl font-bold text-ink">$10</span>
-            <span className="text-sm font-medium text-ink-muted">/ month</span>
+          <h3 className="text-lg font-semibold text-ink">Full Tracker</h3>
+          <div className="mt-3 flex items-baseline gap-1.5">
+            <span className="text-4xl font-bold text-ink">$19</span>
+            <span className="text-sm font-medium text-ink-muted">one-time</span>
           </div>
-          <p className="mt-1 text-sm text-ink-muted">Everything you need</p>
+          <p className="mt-1 text-sm text-ink-muted">
+            Everything you need to move
+          </p>
           <ul className="mb-8 mt-6 space-y-3">
-            {PAID_FEATURES.map((f) => (
+            {TRACKER_FEATURES.map((f) => (
               <FeatureRow key={f}>{f}</FeatureRow>
             ))}
           </ul>
@@ -261,7 +270,36 @@ function Pricing() {
             href="/login"
             className="mt-auto inline-flex items-center justify-center rounded-lg bg-brand-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-600"
           >
-            Upgrade to full tracker
+            Get the full tracker
+          </Link>
+        </div>
+
+        {/* Community */}
+        <div className="flex flex-col rounded-2xl border border-slate-200 p-7">
+          <h3 className="text-lg font-semibold text-ink">Community</h3>
+          <div className="mt-3 flex items-baseline gap-1.5">
+            <span className="text-4xl font-bold text-ink">$7</span>
+            <span className="text-sm font-medium text-ink-muted">/ month</span>
+            <span className="text-xs text-ink-soft">
+              after a 1-month free trial
+            </span>
+          </div>
+          <p className="mt-1 text-sm text-ink-muted">
+            Stay connected after you arrive
+          </p>
+          <ul className="mb-8 mt-6 space-y-3">
+            {COMMUNITY_FEATURES.map((f) => (
+              <FeatureRow key={f}>{f}</FeatureRow>
+            ))}
+          </ul>
+          <p className="mt-auto text-center text-xs text-ink-soft">
+            Requires the Full Tracker purchase first.
+          </p>
+          <Link
+            href="/login"
+            className="mt-3 inline-flex items-center justify-center rounded-lg border border-slate-300 px-5 py-3 text-sm font-semibold text-ink transition hover:border-brand-300 hover:text-brand-700"
+          >
+            Add Community
           </Link>
         </div>
       </div>
@@ -276,12 +314,14 @@ function FounderNote() {
         Why JourneyPal exists
       </h2>
       <p className="mt-8 text-lg leading-relaxed text-ink-muted">
-        I moved from New Zealand to Seoul on my own and learned the hard way
-        how chaotic relocating to Korea can be. ARC deadlines, bank account
-        headaches, neighborhood research, finding a goshiwon at the last
-        minute — there was no single place that organized all of it.
-        JourneyPal is the tool I wished I had.
-        <span className="mt-4 block font-semibold text-ink">— MJ</span>
+        JourneyPal started with one chaotic move from New Zealand to Seoul.
+        Relocating to Korea is full of moving parts — ARC deadlines, bank
+        account headaches, neighborhood research, finding a goshiwon at the
+        last minute — and there was no single place that organized all of it.
+        So we built the tool we wished we had.
+        <span className="mt-4 block font-semibold text-ink">
+          — JourneyPal Team
+        </span>
       </p>
     </section>
   );
@@ -290,11 +330,15 @@ function FounderNote() {
 const FAQS = [
   {
     q: "Do I need to pay to use JourneyPal?",
-    a: "No. The free tier covers your first 5 pre-arrival items and is yours forever. The $10/month plan unlocks the full 30-item tracker, countdown, and community.",
+    a: "No. The free tier covers 5 essential items. The full 30-item tracker is a one-time $19 purchase.",
   },
   {
     q: "Can I cancel anytime?",
-    a: "Yes. Cancel anytime from your account. You'll keep access until the end of your billing period.",
+    a: "The full tracker is a one-time purchase, so there's nothing to cancel. The optional Community subscription can be cancelled anytime.",
+  },
+  {
+    q: "Why is the tracker one-time but Community is monthly?",
+    a: "The tracker is a one-and-done tool for your move. The Community gives you ongoing access to JourneyPal and other students who are moving — that's a continuing value, so it's a small monthly fee after your free first month.",
   },
   {
     q: "Is this only for students?",
@@ -306,7 +350,7 @@ const FAQS = [
   },
   {
     q: "Can I get a refund?",
-    a: "Yes — if you cancel within 7 days of your first paid month, we'll refund you in full, no questions.",
+    a: "Yes — if you're not satisfied with the tracker, email us within 7 days of purchase and we'll refund you in full. For the Community subscription, you can cancel anytime and won't be charged again.",
   },
 ];
 
