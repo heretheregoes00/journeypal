@@ -38,7 +38,9 @@
       "Bash(curl -sI https://journeypal.co/)",
       "Bash(xargs kill)",
       "Bash(npm run *)",
-      "Bash(echo \"dev server restarting \\(pid $!\\)\")"
+      "Bash(echo \"dev server restarting \\(pid $!\\)\")",
+      "Bash(curl -s -o /tmp/p.html -w \"GET / -> %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(grep -oE \"Full Tracker|\\\\\\\\\\\\$19|one-time|\\\\\\\\\\\\$7|Community|After a 1-month free trial|Requires the Full Tracker\" /tmp/p.html)"
     ]
   }
 }
